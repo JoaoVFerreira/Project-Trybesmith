@@ -1,5 +1,5 @@
 import { Response, Request, NextFunction } from 'express';
-import IProducts from '../interface/products';
+import { IProducts, INewProduct } from '../interface/products';
 import ProductsService from '../service/products';
 
 export default class ProductsController {
@@ -12,6 +12,16 @@ export default class ProductsController {
       return res.status(200).json(products);
     } catch (e) {
       next(e);
+    }
+  };
+
+  newProuduct = async (req: Request, res: Response, next: NextFunction)
+  : Promise<Response | void> => {
+    try {
+      const createProduct: INewProduct = await this.productsService.newProduct(req.body);
+      return res.status(201).json(createProduct);
+    } catch (e) {
+      next(e); 
     }
   };
 }
